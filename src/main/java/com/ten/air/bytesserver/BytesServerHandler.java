@@ -8,9 +8,15 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public final class BytesServerHelper {
+/**
+ * 数据包处理器
+ *
+ * @author wshten
+ * @date 2018/10/26
+ */
+public final class BytesServerHandler {
 
-    private static Logger logger = LoggerFactory.getLogger(BytesServerHelper.class);
+    private static Logger logger = LoggerFactory.getLogger(BytesServerHandler.class);
 
     /**
      * key:imei;value:session
@@ -39,9 +45,9 @@ public final class BytesServerHelper {
      */
     private AtomicInteger onlineNum;
 
-    private static volatile BytesServerHelper instance = null;
+    private static volatile BytesServerHandler instance = null;
 
-    private BytesServerHelper() {
+    private BytesServerHandler() {
         this.ipAndPortSession = new ConcurrentHashMap<>();
         this.imeiSession = new ConcurrentHashMap<>();
         this.imeiLastTime = new ConcurrentHashMap<>();
@@ -49,11 +55,11 @@ public final class BytesServerHelper {
         this.connectNum = new AtomicInteger(0);
     }
 
-    public static BytesServerHelper getInstance() {
+    public static BytesServerHandler getInstance() {
         if (instance == null) {
-            synchronized (BytesServerHelper.class) {
+            synchronized (BytesServerHandler.class) {
                 if (instance == null) {
-                    instance = new BytesServerHelper();
+                    instance = new BytesServerHandler();
                 }
             }
         }

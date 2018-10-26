@@ -11,6 +11,12 @@ import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.io.Serializable;
 
+/**
+ * servlet
+ *
+ * @author wshten
+ * @date 2018/10/26
+ */
 @Component
 public class BytesServerServlet extends HttpServlet implements Serializable {
 
@@ -40,5 +46,4 @@ public class BytesServerServlet extends HttpServlet implements Serializable {
         server.shutdown();
         logger.info("============BytesServerServlet[destroy]end============");
     }
-
 }

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ten.air.service.AirRecordDao">
+
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.ten.air.bean.AirRecord">
+        <result column="id" property="id"/>
+        <result column="temperature" property="temperature"/>
+        <result column="co2" property="co2"/>
+        <result column="so2" property="so2"/>
+        <result column="record_time" property="recordTime"/>
+        <result column="record_imei" property="recordImei"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="all_column">
+        id,
+        temperature,
+        co2,
+        so2,
+        record_time,
+        record_imei,
+        update_time
+    </sql>
+
+    <!--auto generated Code-->
+    <insert id="insert">
+        INSERT INTO air_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id != null">id,</if>
+            <if test="pojo.temperature != null">temperature,</if>
+            <if test="pojo.co2 != null">co2,</if>
+            <if test="pojo.so2 != null">so2,</if>
+            <if test="pojo.recordTime != null">record_time,</if>
+            <if test="pojo.recordImei != null">record_imei,</if>
+            <if test="pojo.updateTime != null">update_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id != null">#{pojo.id},</if>
+            <if test="pojo.temperature != null">#{pojo.temperature},</if>
+            <if test="pojo.co2 != null">#{pojo.co2},</if>
+            <if test="pojo.so2 != null">#{pojo.so2},</if>
+            <if test="pojo.recordTime != null">#{pojo.recordTime},</if>
+            <if test="pojo.recordImei != null">#{pojo.recordImei},</if>
+            <if test="pojo.updateTime != null">#{pojo.updateTime},</if>
+        </trim>
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO air_record(
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.id},
+            #{pojo.temperature},
+            #{pojo.co2},
+            #{pojo.so2},
+            #{pojo.recordTime},
+            #{pojo.recordImei},
+            #{pojo.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <!--auto generated Code-->
+    <update id="update">
+        UPDATE air_record
+        <set>
+            <if test="pojo.id != null">id = #{pojo.id},</if>
+            <if test="pojo.temperature != null">temperature = #{pojo.temperature},</if>
+            <if test="pojo.co2 != null">co2 = #{pojo.co2},</if>
+            <if test="pojo.so2 != null">so2 = #{pojo.so2},</if>
+            <if test="pojo.recordTime != null">record_time = #{pojo.recordTime},</if>
+            <if test="pojo.recordImei != null">record_imei = #{pojo.recordImei},</if>
+        </set>
+        WHERE id = #{pojo.id}
+    </update>
+
+    <!--auto generated Code-->
+    <select id="select" resultMap="AllColumnMap">
+        SELECT
+        <include refid="all_column"/>
+        FROM air_record
+        <where>
+            <if test="pojo.id != null">AND id = #{pojo.id}</if>
+            <if test="pojo.temperature != null">AND temperature = #{pojo.temperature}</if>
+            <if test="pojo.co2 != null">AND co2 = #{pojo.co2}</if>
+            <if test="pojo.so2 != null">AND so2 = #{pojo.so2}</if>
+            <if test="pojo.recordTime != null">AND record_time = #{pojo.recordTime}</if>
+            <if test="pojo.recordImei != null">AND record_imei = #{pojo.recordImei}</if>
+            <if test="pojo.updateTime != null">AND update_time = #{pojo.updateTime}</if>
+        </where>
+        LIMIT 1000
+    </select>
+
+    <!--auto generated Code-->
+    <delete id="delete">
+        DELETE FROM air_record where id = #{pojo.id}
+    </delete>
+</mapper>

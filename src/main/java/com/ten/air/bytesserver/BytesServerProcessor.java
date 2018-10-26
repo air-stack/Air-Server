@@ -6,20 +6,24 @@ import org.smartboot.socket.MessageProcessor;
 import org.smartboot.socket.StateMachineEnum;
 import org.smartboot.socket.transport.AioSession;
 
+/**
+ * processor
+ *
+ * @author wshten
+ * @date 2018/10/26
+ */
 public class BytesServerProcessor implements MessageProcessor<byte[]> {
 
-    private static BytesServerHelper bytesHelperInstance = BytesServerHelper.getInstance();
+    private static BytesServerHandler bytesHelperInstance = BytesServerHandler.getInstance();
 
     private static Logger logger = LoggerFactory.getLogger(BytesServerProcessor.class);
 
     private static final int DATA_LENGTH = 39;
 
-    /**
-     * Session发送消息时进入:
-     */
     @Override
     public void process(AioSession<byte[]> session, byte[] data) {
-
+        logger.info("receive message");
+        // TODO 数据包处理
     }
 
     @Override

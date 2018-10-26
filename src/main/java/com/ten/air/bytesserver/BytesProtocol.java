@@ -5,6 +5,12 @@ import org.smartboot.socket.transport.AioSession;
 
 import java.nio.ByteBuffer;
 
+/**
+ * byte protocol
+ *
+ * @author wshten
+ * @date 2018/10/26
+ */
 public class BytesProtocol implements Protocol<byte[]> {
 
     private static final int BYTE_LENGTH = 1;
