@@ -7,9 +7,6 @@ import java.nio.ByteBuffer;
 
 /**
  * byte protocol
- *
- * @author wshten
- * @date 2018/10/26
  */
 public class BytesProtocol implements Protocol<byte[]> {
 

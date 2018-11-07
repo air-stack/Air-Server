@@ -2,9 +2,6 @@ package com.ten.air.bean;
 
 /**
  * Atmospheric monitoring record 大气监测记录
- *
- * @author wshten
- * @date 2018/10/26
  */
 public class AirRecord {
     /**
@@ -47,6 +44,19 @@ public class AirRecord {
         this.recordTime = recordTime;
         this.recordImei = recordImei;
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "AirRecord@{" +
+                "id:" + id + "," +
+                "temperature:" + temperature + "," +
+                "co2:" + co2 + "," +
+                "so2:" + so2 + "," +
+                "recordTime:" + recordTime + "," +
+                "recordImei:" + recordImei + "," +
+                "updateTime:" + updateTime +
+                "}";
     }
 
     public Integer getId() {
