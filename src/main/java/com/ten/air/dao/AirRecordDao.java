@@ -1,4 +1,4 @@
-package com.ten.air.service;
+package com.ten.air.dao;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -12,7 +12,6 @@ import com.ten.air.bean.AirRecord;
  * @author wshten
  * @date 2018/10/26
  */
-@Mapper
 public interface AirRecordDao {
 
     int insert(@Param("pojo") AirRecord pojo);

@@ -1,5 +1,6 @@
 package com.ten.air.service;
 
+import com.ten.air.dao.AirRecordDao;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

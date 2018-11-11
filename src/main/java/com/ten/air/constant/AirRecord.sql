@@ -1,5 +1,9 @@
 -- auto Generated on 2018-10-26 22:53:57 
--- DROP TABLE IF EXISTS `air_record`; 
+-- DROP TABLE IF EXISTS `air_record`;
+CREATE DATABASE air;
+
+USE air;
+
 CREATE TABLE air_record(
     `id` INTEGER(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
     `temperature` VARCHAR(50) NOT NULL DEFAULT '' COMMENT 'Temperature ÎÂ¶È',
