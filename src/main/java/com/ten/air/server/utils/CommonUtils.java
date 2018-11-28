@@ -3,13 +3,7 @@ package com.ten.air.server.utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * @author Schaffer Xu
- * @version 1.0
- */
-@SuppressWarnings("unused")
 public class CommonUtils {
-
 
     /**
      * 获取当前时间-格式化

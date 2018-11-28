@@ -5,11 +5,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 转码工具类
- *
- * @author Schaffer Xu
- * @version 1.0
  */
-@SuppressWarnings("unused")
 public class CodeConvertUtil {
 
     /**
@@ -132,20 +128,22 @@ public class CodeConvertUtil {
 
     /**
      * 十进制----->十六进制
-     * @param decimalism    十进制数
+     *
+     * @param decimalism 十进制数
      * @return
      */
-    public static String decimalismToHexString(int decimalism){
+    public static String decimalismToHexString(int decimalism) {
         String hexStr = Integer.toHexString(decimalism).toUpperCase();
-        hexStr = hexStr.length()%2==0? hexStr: "0"+hexStr;
+        hexStr = hexStr.length() % 2 == 0 ? hexStr : "0" + hexStr;
         return hexStr;
     }
 
     /**
      * 当前时间----->十六进制
+     *
      * @return
      */
-    public static String getNowTimeToHexString(){
+    public static String getNowTimeToHexString() {
         String result = "";
         String timeNow = CommonUtils.getTimeNow("yyMMddHHmmss");
         String year = Integer.toHexString(Integer.valueOf(timeNow.substring(0, 2))).toUpperCase();//年
@@ -154,12 +152,12 @@ public class CodeConvertUtil {
         String hour = Integer.toHexString(Integer.valueOf(timeNow.substring(6, 8))).toUpperCase();//时
         String min = Integer.toHexString(Integer.valueOf(timeNow.substring(8, 10))).toUpperCase();//分
         String second = Integer.toHexString(Integer.valueOf(timeNow.substring(10))).toUpperCase();//秒
-        return result + (year.length()==2? year: "0"+year)
-                + (mouth.length()==2? mouth: "0"+mouth)
-                + (day.length()==2? day: "0"+day)
-                + (hour.length()==2? hour: "0"+hour)
-                + (min.length()==2? min: "0"+min)
-                + (second.length()==2? second: "0"+second);
+        return result + (year.length() == 2 ? year : "0" + year)
+                + (mouth.length() == 2 ? mouth : "0" + mouth)
+                + (day.length() == 2 ? day : "0" + day)
+                + (hour.length() == 2 ? hour : "0" + hour)
+                + (min.length() == 2 ? min : "0" + min)
+                + (second.length() == 2 ? second : "0" + second);
     }
 
 }

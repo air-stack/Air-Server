@@ -1,6 +1,7 @@
 package com.ten.air.server.bytesserver;
 
 import com.ten.air.server.bean.BytesConnection;
+import com.ten.air.server.utils.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.transport.AioSession;
@@ -58,22 +59,8 @@ public final class BytesServerHandler {
         this.connectNum = new AtomicInteger(0);
     }
 
-    public AioSession<byte[]> getSessionForImei(String imei) {
-        return imeiSession.get(imei);
-    }
-
-    public ConcurrentHashMap<String, Long> getImeiLastTime() {
-        return imeiLastTime;
-    }
-
-    public void receiveData(BytesConnection connection){
-
-    }
-
     /**
      * 获取当前在线数量
-     *
-     * @return AtomicInteger
      */
     public AtomicInteger getOnlineNum() {
         return onlineNum;
@@ -81,10 +68,8 @@ public final class BytesServerHandler {
 
     /**
      * 获取当前连接数量
-     *
-     * @return AtomicInteger
      */
-    AtomicInteger getConnectNum() {
+    public AtomicInteger getConnectNum() {
         return connectNum;
     }
 
@@ -103,48 +88,45 @@ public final class BytesServerHandler {
     }
 
     /**
-     * 机器断开连接
+     * 机器断开连接：连接数 -1
      */
-    void disconnect() {
+    public void disconnect() {
         this.connectNum.getAndAdd(-1);
     }
 
     /**
-     * 机器下线
-     *
-     * @param key key
+     * 机器下线：在线数 -1
      */
     public void offline(String key) {
         this.onlineNum.getAndAdd(-1);
     }
 
-    /* ---------------------------- 闸机发送心跳包 -------------------------------- */
+    /* ---------------------------- 数据包处理 -------------------------------- */
 
-    /**
-     * 删除IpAndPort池旧连接
-     */
-    private void removeIpAndPortSession(AioSession<byte[]> oldImeiSession) {
-        for (Map.Entry<String, AioSession<byte[]>> entry : this.ipAndPortSession.entrySet()) {
-            if (entry.getValue() == oldImeiSession) {
-                ipAndPortSession.remove(entry.getKey());
-                break;
-            }
-        }
-    }
+    public void receiveData(BytesConnection connection) {
+        AioSession<byte[]> session = connection.getSession();
+        byte[] data = connection.getData();
 
-    /**
-     * 根据Session获取IpAndPort
-     *
-     * @param oldSession session对象
-     * @return IpAndPort
-     */
-    private String getIpAndPortBySession(AioSession<byte[]> oldSession) {
-        for (Map.Entry<String, AioSession<byte[]>> entry : this.ipAndPortSession.entrySet()) {
-            if (entry.getValue() == oldSession) {
-                return entry.getKey();
-            }
+        // TODO 数据处理
+
+        String imei = "1234";
+        String temperature = "25";
+        String pm25 = "125";
+
+        // session 存在
+        if (imeiSession.contains(imei)) {
+            updateImeiTime(imei);
         }
-        return "";
+        // session 不存在
+        else {
+            imeiSession.put(imei, session);
+            updateImeiTime(imei);
+        }
+
+        String url = "http://localhost:8080/air";
+        String params = "?imei=" + imei + "&temperature=" + temperature + "&pm25=" + pm25;
+
+        String result = HttpRequest.sendGet(url, params);
     }
 
     /**

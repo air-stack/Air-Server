@@ -11,20 +11,13 @@ import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.io.Serializable;
 
-/**
- * servlet
- *
- * @author wshten
- * @date 2018/10/26
- */
 @Component
 public class BytesServerServlet extends HttpServlet implements Serializable {
+    private static final Logger logger = LoggerFactory.getLogger(BytesServerServlet.class);
 
     private static final int PORT = 2759;
 
     private static final long serialVersionUID = 1L;
-
-    private static Logger logger = LoggerFactory.getLogger(BytesServerServlet.class);
 
     private AioQuickServer<byte[]> server = new AioQuickServer<>(PORT, new BytesProtocol(), new BytesServerProcessor());
 
