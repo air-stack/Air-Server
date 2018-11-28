@@ -1,29 +1,54 @@
 package com.ten.air.server.bytesserver;
 
+import com.ten.air.server.bean.BytesConnection;
+import com.ten.air.server.utils.CodeConvertUtil;
+import com.ten.air.server.utils.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.MessageProcessor;
 import org.smartboot.socket.StateMachineEnum;
 import org.smartboot.socket.transport.AioSession;
 
-/**
- * processor
- *
- * @author wshten
- * @date 2018/10/26
- */
 public class BytesServerProcessor implements MessageProcessor<byte[]> {
+    private static Logger logger = LoggerFactory.getLogger(BytesServerProcessor.class);
 
     private static BytesServerHandler bytesHelperInstance = BytesServerHandler.getInstance();
 
-    private static Logger logger = LoggerFactory.getLogger(BytesServerProcessor.class);
-
-    private static final int DATA_LENGTH = 39;
+    private static final int DATA_LENGTH = 31;
 
     @Override
     public void process(AioSession<byte[]> session, byte[] data) {
-        logger.info("receive message");
-        // TODO 数据包处理
+        BytesConnection connection = BytesConnection.newInstance(session, data);
+        logger.info("receive new " + connection);
+
+        // 和校验
+        if (!CommonUtils.checkDataGram(data)) {
+            logger.warn("和校验 失败");
+            return;
+        }
+
+        // 长度校验
+        if (data.length != DATA_LENGTH) {
+            logger.info("长度校验 失败 ");
+            return;
+        }
+
+        // 接收到客户端传输的数据 data
+        String dataString = CodeConvertUtil.bytesToHexString(data);
+        if (dataString == null) {
+            logger.error("数据转换 失败");
+            return;
+        }
+
+        logger.info("接收到的基础数据为 " + dataString);
+
+        // 11~25
+        // 获取imei
+        String imei = dataString.substring(20, 50);
+        logger.info("当前进入设备 --> imei=" + imei);
+
+        // 进入信息接收处理流程
+        bytesHelperInstance.receiveData(connection);
     }
 
     @Override

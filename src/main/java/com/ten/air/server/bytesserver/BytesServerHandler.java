@@ -1,5 +1,6 @@
 package com.ten.air.server.bytesserver;
 
+import com.ten.air.server.bean.BytesConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.transport.AioSession;
@@ -15,47 +16,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date 2018/10/26
  */
 public final class BytesServerHandler {
-
-    private static Logger logger = LoggerFactory.getLogger(BytesServerHandler.class);
-
-    /**
-     * key:imei;value:session
-     * 扫码后根据imei向对应的session发送指令
-     */
-    private ConcurrentHashMap<String, AioSession<byte[]>> imeiSession;
-
-    /**
-     * key:ip+port;value:session
-     */
-    private ConcurrentHashMap<String, AioSession<byte[]>> ipAndPortSession;
-
-    /**
-     * key:imei;value:最后连接时间(long => ms)
-     * 保存最后一次连接的时间
-     */
-    private ConcurrentHashMap<String, Long> imeiLastTime;
-
-    /**
-     * 当前连接数量
-     */
-    private AtomicInteger connectNum;
-
-    /**
-     * 当前在线数量
-     */
-    private AtomicInteger onlineNum;
+    private static final Logger logger = LoggerFactory.getLogger(BytesServerHandler.class);
 
     private static volatile BytesServerHandler instance = null;
 
-    private BytesServerHandler() {
-        this.ipAndPortSession = new ConcurrentHashMap<>();
-        this.imeiSession = new ConcurrentHashMap<>();
-        this.imeiLastTime = new ConcurrentHashMap<>();
-        this.onlineNum = new AtomicInteger(0);
-        this.connectNum = new AtomicInteger(0);
-    }
-
-    public static BytesServerHandler getInstance() {
+    static BytesServerHandler getInstance() {
         if (instance == null) {
             synchronized (BytesServerHandler.class) {
                 if (instance == null) {
@@ -66,22 +31,43 @@ public final class BytesServerHandler {
         return instance;
     }
 
+    /**
+     * @key imei
+     * @value session
+     */
+    private ConcurrentHashMap<String, AioSession<byte[]>> imeiSession;
+    /**
+     * @key imei
+     * @value 最后连接时间(long = > ms)
+     */
+    private ConcurrentHashMap<String, Long> imeiLastTime;
+
+    /**
+     * 当前连接数量
+     */
+    private AtomicInteger connectNum;
+    /**
+     * 当前在线数量
+     */
+    private AtomicInteger onlineNum;
+
+    private BytesServerHandler() {
+        this.imeiSession = new ConcurrentHashMap<>();
+        this.imeiLastTime = new ConcurrentHashMap<>();
+        this.onlineNum = new AtomicInteger(0);
+        this.connectNum = new AtomicInteger(0);
+    }
+
     public AioSession<byte[]> getSessionForImei(String imei) {
         return imeiSession.get(imei);
     }
 
-    /**
-     * 获取所有的ip-session
-     *
-     * @return ConcurrentHashMap
-     */
-    public ConcurrentHashMap<String, AioSession<byte[]>> getIpAndPortSession() {
-
-        return ipAndPortSession;
-    }
-
     public ConcurrentHashMap<String, Long> getImeiLastTime() {
         return imeiLastTime;
+    }
+
+    public void receiveData(BytesConnection connection){
+
     }
 
     /**

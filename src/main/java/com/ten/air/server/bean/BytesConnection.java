@@ -1,51 +1,32 @@
 package com.ten.air.server.bean;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.smartboot.socket.transport.AioSession;
+
+import java.util.Arrays;
 
 /**
  * Client连接对象 data transfer object
  */
 public class BytesConnection {
-
-    private static Logger logger = LoggerFactory.getLogger(BytesConnection.class);
-
-    private String ipAndPort;
-    private String imei;
     private AioSession<byte[]> session;
+    private byte[] data;
 
     private BytesConnection() {
     }
 
-    public static BytesConnection newInstance(String ipAndPort, String imei, AioSession<byte[]> session) {
+    public static BytesConnection newInstance(AioSession<byte[]> session, byte[] data) {
         BytesConnection instance = new BytesConnection();
-        instance.ipAndPort = ipAndPort;
-        instance.imei = imei;
         instance.session = session;
-        logger.info("receive new connecition : " + instance);
+        instance.data = data;
         return instance;
     }
 
     @Override
     public String toString() {
-        return "Connection@{IpAndPort:" + ipAndPort + ",Imei:" + imei + ",session:" + session + "}";
-    }
-
-    public String getIpAndPort() {
-        return ipAndPort;
-    }
-
-    public void setIpAndPort(String ipAndPort) {
-        this.ipAndPort = ipAndPort;
-    }
-
-    public String getImei() {
-        return imei;
-    }
-
-    public void setImei(String imei) {
-        this.imei = imei;
+        return "BytesConnection{" +
+                "session=" + session +
+                ", data=" + Arrays.toString(data) +
+                '}';
     }
 
     public AioSession<byte[]> getSession() {
@@ -56,4 +37,11 @@ public class BytesConnection {
         this.session = session;
     }
 
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 }
