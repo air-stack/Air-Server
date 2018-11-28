@@ -1,19 +1,13 @@
-package com.ten.air.service;
+package com.ten.air.server.service;
 
-import com.ten.air.dao.AirRecordDao;
+import com.ten.air.server.dao.AirRecordDao;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-import com.ten.air.bean.AirRecord;
+import com.ten.air.server.entity.AirRecord;
 
-/**
- * MySQL Service
- *
- * @author wshten
- * @date 2018/10/26
- */
 @Service
 public class AirRecordService {
 

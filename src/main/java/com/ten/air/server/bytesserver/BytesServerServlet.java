@@ -1,4 +1,4 @@
-package com.ten.air.bytesserver;
+package com.ten.air.server.bytesserver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.ten.air.bean;
+package com.ten.air.server.bean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
