@@ -1,32 +1,47 @@
 package com.ten.air.tcp.bean;
 
+import com.ten.air.tcp.entity.AirRecord;
 import org.smartboot.socket.transport.AioSession;
-
-import java.util.Arrays;
 
 /**
  * Client连接对象 data transfer object
  */
 public class BytesConnection {
+
+    /*
+     测试数据 0x16:
+     A0 0F 24 12 08 0F 11 1E 14 01 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF 01 19 02 00 FA 00 00 00 00 FF FF
+     |...| || |...............| || |..........................................| || |...| |...| |...| |...| |...|
+     首部  长度      时间戳      功能码                设备号IMEI                  来源  数据  数据   数据   数据  校验和
+    */
+
+    private AirRecord airRecord;
     private AioSession<byte[]> session;
-    private byte[] data;
 
     private BytesConnection() {
     }
 
-    public static BytesConnection newInstance(AioSession<byte[]> session, byte[] data) {
+    public static BytesConnection newInstance(AirRecord airRecord, AioSession<byte[]> session) {
         BytesConnection instance = new BytesConnection();
+        instance.airRecord = airRecord;
         instance.session = session;
-        instance.data = data;
         return instance;
     }
 
     @Override
     public String toString() {
         return "BytesConnection{" +
-                "session=" + session +
-                ", data=" + Arrays.toString(data) +
+                "airRecord=" + airRecord +
+                ", session=" + session +
                 '}';
+    }
+
+    public AirRecord getAirRecord() {
+        return airRecord;
+    }
+
+    public void setAirRecord(AirRecord airRecord) {
+        this.airRecord = airRecord;
     }
 
     public AioSession<byte[]> getSession() {
@@ -35,13 +50,5 @@ public class BytesConnection {
 
     public void setSession(AioSession<byte[]> session) {
         this.session = session;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
     }
 }

@@ -2,6 +2,7 @@
 -- DROP TABLE IF EXISTS `air_record`; 
 CREATE TABLE air_record(
     `id` INTEGER(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `source` INTEGER(12) NOT NULL DEFAULT -1 COMMENT 'Device Source 设备来源 0:真机 1:虚拟',
     `imei` VARCHAR(50) NOT NULL DEFAULT '' COMMENT 'Record Imei 记录设备',
     `temperature` VARCHAR(50) NOT NULL DEFAULT '' COMMENT 'Temperature 温度',
     `pm25` VARCHAR(50) NOT NULL DEFAULT '' COMMENT 'PM 2.5 Concentration',

@@ -1,11 +1,18 @@
 package com.ten.air.tcp.bytesserver;
 
 import com.ten.air.tcp.bean.BytesConnection;
+import com.ten.air.tcp.entity.AirDevice;
+import com.ten.air.tcp.entity.AirRecord;
+import com.ten.air.tcp.service.AirDeviceService;
+import com.ten.air.tcp.service.AirRecordService;
+import com.ten.air.tcp.utils.CommonUtils;
 import com.ten.air.tcp.utils.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.transport.AioSession;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,6 +39,11 @@ public final class BytesServerHandler {
         return instance;
     }
 
+    @Autowired
+    private AirDeviceService airDeviceService;
+    @Autowired
+    private AirRecordService airRecordService;
+
     /**
      * @key imei
      * @value session
@@ -52,7 +64,7 @@ public final class BytesServerHandler {
      */
     private AtomicInteger onlineNum;
 
-    private BytesServerHandler() {
+    public BytesServerHandler() {
         this.imeiSession = new ConcurrentHashMap<>();
         this.imeiLastTime = new ConcurrentHashMap<>();
         this.onlineNum = new AtomicInteger(0);
@@ -103,45 +115,76 @@ public final class BytesServerHandler {
 
     /* ---------------------------- 数据包处理 -------------------------------- */
 
+
     public void receiveData(BytesConnection connection) {
+        logger.info("开始处理数据包...");
+
         AioSession<byte[]> session = connection.getSession();
-        byte[] data = connection.getData();
+        AirRecord airRecord = connection.getAirRecord();
 
-        // TODO 数据处理
+        String imei = airRecord.getImei();
 
-        String imei = "1234";
-        String temperature = "25";
-        String pm25 = "125";
+        // 获取心跳session
+        AioSession<byte[]> oldImeiSession = this.imeiSession.get(imei);
 
-        // session 存在
-        if (imeiSession.contains(imei)) {
-            updateImeiTime(imei);
+        // 心跳不存在 注册新连接
+        if (oldImeiSession == null) {
+            try {
+                boolean success = this.registerNewConnect(connection);
+                if (success) {
+                    logger.info("创建新连接 " + connection);
+                } else {
+                    logger.warn("创建新连接失败 " + connection);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        // session 不存在
+        // 心跳存在
         else {
-            imeiSession.put(imei, session);
-            updateImeiTime(imei);
+            this.updateImeiTime(imei);
+            logger.info("心跳刷新 : " + connection);
         }
 
-        String url = "http://localhost:8080/air";
-        String params = "?imei=" + imei + "&temperature=" + temperature + "&pm25=" + pm25;
-
-        String result = HttpRequest.sendGet(url, params);
+        airRecord.setIsDeleted(0);
+        airRecordService.insert(airRecord);
     }
 
     /**
-     * 根据Session获取Imei
-     *
-     * @param oldSession session对象
-     * @return imei
+     * 注册新连接
      */
-    private String getImeiBySession(AioSession<byte[]> oldSession) {
-        for (Map.Entry<String, AioSession<byte[]>> entry : this.imeiSession.entrySet()) {
-            if (entry.getValue() == oldSession) {
-                return entry.getKey();
-            }
+    private boolean registerNewConnect(BytesConnection connection) {
+        logger.info("开始注册新连接...");
+
+        String imei = connection.getAirRecord().getImei();
+
+        AirDevice device = new AirDevice();
+        device.setImei(imei);
+        device.setIsDeleted(0);
+
+        List<AirDevice> devices = airDeviceService.select(device);
+        // 设备不存在 => 注册
+        if (devices.size() < 1) {
+            device.setDeviceStatus(0);
+            device.setAlias("设备");
+            device.setCommunityId("0");
+            airDeviceService.insert(device);
+            this.addConnectNum();
         }
-        return "";
+        // 设备存在 => 上线
+        else {
+            device.setDeviceStatus(1);
+            airDeviceService.update(device);
+            this.addOnlineNum();
+        }
+
+        // 新连接写入session池
+        this.imeiSession.put(imei, connection.getSession());
+
+        // 更新心跳时间
+        updateImeiTime(imei);
+
+        return true;
     }
 
     /**
@@ -151,5 +194,4 @@ public final class BytesServerHandler {
         long time = System.currentTimeMillis();
         imeiLastTime.put(imei, time);
     }
-
 }

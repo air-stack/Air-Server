@@ -6,6 +6,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.smartboot.socket.transport.AioQuickServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 127.0.0.1:2759
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2018/10/26
  */
 @SpringBootApplication
+@ComponentScan("com.ten.air.tcp")
 @MapperScan("com.ten.air.tcp.dao")
 public class AirApplication {
 

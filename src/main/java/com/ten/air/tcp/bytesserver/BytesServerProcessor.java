@@ -1,6 +1,7 @@
 package com.ten.air.tcp.bytesserver;
 
 import com.ten.air.tcp.bean.BytesConnection;
+import com.ten.air.tcp.entity.AirRecord;
 import com.ten.air.tcp.utils.CodeConvertUtil;
 import com.ten.air.tcp.utils.CommonUtils;
 import org.slf4j.Logger;
@@ -14,22 +15,15 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
 
     private static BytesServerHandler bytesHelperInstance = BytesServerHandler.getInstance();
 
-    private static final int DATA_LENGTH = 31;
+    private static final int DATA_LENGTH = 36;
 
     @Override
     public void process(AioSession<byte[]> session, byte[] data) {
-        BytesConnection connection = BytesConnection.newInstance(session, data);
-        logger.info("receive new " + connection);
-
         // 和校验
-        if (!CommonUtils.checkDataGram(data)) {
-            logger.warn("和校验 失败");
-            return;
-        }
 
         // 长度校验
         if (data.length != DATA_LENGTH) {
-            logger.info("长度校验 失败 ");
+            logger.warn("长度校验 失败");
             return;
         }
 
@@ -42,10 +36,30 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
 
         logger.info("接收到的基础数据为 " + dataString);
 
-        // 11~25
-        // 获取imei
+        // 地址码 (11-25)字节
         String imei = dataString.substring(20, 50);
-        logger.info("当前进入设备 --> imei=" + imei);
+        // 数据来源 (26)字节
+        String source = dataString.substring(50, 52);
+        // 数据1 温度 (27-28)字节
+        String temperature = dataString.substring(52, 56);
+        // 数据2 PM25 (29-30)字节
+        String pm25 = dataString.substring(56, 60);
+        // 数据3 CO2 (31-32)字节
+        String co2 = dataString.substring(60, 64);
+        // 数据4 SO2 (33-34)字节
+        String so2 = dataString.substring(64, 68);
+
+        AirRecord airRecord = new AirRecord();
+        airRecord.setImei(imei);
+        airRecord.setSource(source);
+        airRecord.setTemperature(temperature);
+        airRecord.setPm25(pm25);
+        airRecord.setCo2(co2);
+        airRecord.setSo2(so2);
+
+        logger.info("当前进入设备 --> " + airRecord);
+
+        BytesConnection connection = BytesConnection.newInstance(airRecord, session);
 
         // 进入信息接收处理流程
         bytesHelperInstance.receiveData(connection);
