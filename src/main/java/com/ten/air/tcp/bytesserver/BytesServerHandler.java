@@ -1,7 +1,7 @@
-package com.ten.air.server.bytesserver;
+package com.ten.air.tcp.bytesserver;
 
-import com.ten.air.server.bean.BytesConnection;
-import com.ten.air.server.utils.HttpRequest;
+import com.ten.air.tcp.bean.BytesConnection;
+import com.ten.air.tcp.utils.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.transport.AioSession;

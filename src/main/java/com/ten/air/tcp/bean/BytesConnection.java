@@ -1,4 +1,4 @@
-package com.ten.air.server.bean;
+package com.ten.air.tcp.bean;
 
 import org.smartboot.socket.transport.AioSession;
 

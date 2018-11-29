@@ -1,8 +1,8 @@
-package com.ten.air.server.bytesserver;
+package com.ten.air.tcp.bytesserver;
 
-import com.ten.air.server.bean.BytesConnection;
-import com.ten.air.server.utils.CodeConvertUtil;
-import com.ten.air.server.utils.CommonUtils;
+import com.ten.air.tcp.bean.BytesConnection;
+import com.ten.air.tcp.utils.CodeConvertUtil;
+import com.ten.air.tcp.utils.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.MessageProcessor;

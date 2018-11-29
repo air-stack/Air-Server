@@ -1,4 +1,4 @@
-package com.ten.air.server.utils;
+package com.ten.air.tcp.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

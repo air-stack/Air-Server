@@ -1,4 +1,4 @@
-package com.ten.air.server.bytesserver;
+package com.ten.air.tcp.bytesserver;
 
 import org.smartboot.socket.Protocol;
 import org.smartboot.socket.transport.AioSession;
@@ -13,7 +13,7 @@ public class BytesProtocol implements Protocol<byte[]> {
     private static final int BYTE_LENGTH = 1;
 
     @Override
-    public byte[] decode(ByteBuffer data, AioSession<byte[]> aioSession, boolean b) {
+    public byte[] decode(ByteBuffer data, AioSession<byte[]> aioSession) {
         if (data.remaining() < BYTE_LENGTH) {
             return null;
         }

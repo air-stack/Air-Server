@@ -1,10 +1,10 @@
-package com.ten.air.server.dao;
+package com.ten.air.tcp.dao;
 
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-import com.ten.air.server.entity.AirRecord;
+import com.ten.air.tcp.entity.AirRecord;
 
 public interface AirRecordDao {
 

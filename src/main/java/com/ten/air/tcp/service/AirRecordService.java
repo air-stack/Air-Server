@@ -1,12 +1,12 @@
-package com.ten.air.server.service;
+package com.ten.air.tcp.service;
 
-import com.ten.air.server.dao.AirRecordDao;
+import com.ten.air.tcp.dao.AirRecordDao;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-import com.ten.air.server.entity.AirRecord;
+import com.ten.air.tcp.entity.AirRecord;
 
 @Service
 public class AirRecordService {

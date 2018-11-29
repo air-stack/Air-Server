@@ -1,4 +1,4 @@
-package com.ten.air.server.utils;
+package com.ten.air.tcp.utils;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicReference;
