@@ -1,4 +1,4 @@
-package com.ten.air.tcp.entity;
+package com.ten.air.server.entity;
 
 /**
  * Atmospheric monitoring record 大气监测记录

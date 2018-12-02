@@ -1,7 +1,7 @@
-package com.ten.air.tcp;
+package com.ten.air.server;
 
-import com.ten.air.tcp.bytesserver.BytesProtocol;
-import com.ten.air.tcp.bytesserver.BytesServerProcessor;
+import com.ten.air.server.bytesserver.BytesProtocol;
+import com.ten.air.server.bytesserver.BytesServerProcessor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.smartboot.socket.transport.AioQuickServer;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @date 2018/10/26
  */
 @SpringBootApplication
-@ComponentScan("com.ten.air.tcp")
+@ComponentScan("com.ten.air.server")
 @MapperScan("com.ten.air.tcp.dao")
 public class AirApplication {
 

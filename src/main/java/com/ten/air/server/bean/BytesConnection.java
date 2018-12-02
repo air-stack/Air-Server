@@ -1,6 +1,6 @@
-package com.ten.air.tcp.bean;
+package com.ten.air.server.bean;
 
-import com.ten.air.tcp.entity.AirRecord;
+import com.ten.air.server.entity.AirRecord;
 import org.smartboot.socket.transport.AioSession;
 
 /**

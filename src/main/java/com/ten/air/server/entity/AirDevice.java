@@ -1,4 +1,4 @@
-package com.ten.air.tcp.entity;
+package com.ten.air.server.entity;
 
 /**
  * Atmospheric Sensor 大气监测设备详情

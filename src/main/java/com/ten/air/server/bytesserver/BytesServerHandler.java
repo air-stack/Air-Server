@@ -1,19 +1,15 @@
-package com.ten.air.tcp.bytesserver;
+package com.ten.air.server.bytesserver;
 
-import com.ten.air.tcp.bean.BytesConnection;
-import com.ten.air.tcp.entity.AirDevice;
-import com.ten.air.tcp.entity.AirRecord;
-import com.ten.air.tcp.service.AirDeviceService;
-import com.ten.air.tcp.service.AirRecordService;
-import com.ten.air.tcp.utils.CommonUtils;
-import com.ten.air.tcp.utils.HttpRequest;
+import com.ten.air.server.bean.BytesConnection;
+import com.ten.air.server.entity.AirDevice;
+import com.ten.air.server.entity.AirRecord;
+import com.ten.air.server.service.AirDeviceService;
+import com.ten.air.server.service.AirRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.transport.AioSession;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,26 +19,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author wshten
  * @date 2018/10/26
  */
-public final class BytesServerHandler {
+public class BytesServerHandler {
     private static final Logger logger = LoggerFactory.getLogger(BytesServerHandler.class);
 
-    private static volatile BytesServerHandler instance = null;
+    private static final BytesServerHandler INSTANCE = new BytesServerHandler();
 
     static BytesServerHandler getInstance() {
-        if (instance == null) {
-            synchronized (BytesServerHandler.class) {
-                if (instance == null) {
-                    instance = new BytesServerHandler();
-                }
-            }
-        }
-        return instance;
+        return INSTANCE;
     }
-
-    @Autowired
-    private AirDeviceService airDeviceService;
-    @Autowired
-    private AirRecordService airRecordService;
 
     /**
      * @key imei
@@ -64,7 +48,7 @@ public final class BytesServerHandler {
      */
     private AtomicInteger onlineNum;
 
-    public BytesServerHandler() {
+    private BytesServerHandler() {
         this.imeiSession = new ConcurrentHashMap<>();
         this.imeiLastTime = new ConcurrentHashMap<>();
         this.onlineNum = new AtomicInteger(0);
@@ -115,6 +99,8 @@ public final class BytesServerHandler {
 
     /* ---------------------------- 数据包处理 -------------------------------- */
 
+    private AirDeviceService airDeviceService = AirDeviceService.getInstance();
+    private AirRecordService airRecordService = AirRecordService.getInstance();
 
     public void receiveData(BytesConnection connection) {
         logger.info("开始处理数据包...");
@@ -164,7 +150,7 @@ public final class BytesServerHandler {
 
         List<AirDevice> devices = airDeviceService.select(device);
         // 设备不存在 => 注册
-        if (devices.size() < 1) {
+        if (devices == null || devices.size() < 1) {
             device.setDeviceStatus(0);
             device.setAlias("设备");
             device.setCommunityId("0");

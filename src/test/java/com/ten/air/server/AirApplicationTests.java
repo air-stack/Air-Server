@@ -1,4 +1,4 @@
-package com.ten.air.tcp;
+package com.ten.air.server;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

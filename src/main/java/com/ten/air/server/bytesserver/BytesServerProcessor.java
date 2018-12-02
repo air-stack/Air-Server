@@ -1,9 +1,8 @@
-package com.ten.air.tcp.bytesserver;
+package com.ten.air.server.bytesserver;
 
-import com.ten.air.tcp.bean.BytesConnection;
-import com.ten.air.tcp.entity.AirRecord;
-import com.ten.air.tcp.utils.CodeConvertUtil;
-import com.ten.air.tcp.utils.CommonUtils;
+import com.ten.air.server.bean.BytesConnection;
+import com.ten.air.server.entity.AirRecord;
+import com.ten.air.server.utils.CodeConvertUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.MessageProcessor;
@@ -13,7 +12,7 @@ import org.smartboot.socket.transport.AioSession;
 public class BytesServerProcessor implements MessageProcessor<byte[]> {
     private static Logger logger = LoggerFactory.getLogger(BytesServerProcessor.class);
 
-    private static BytesServerHandler bytesHelperInstance = BytesServerHandler.getInstance();
+    private BytesServerHandler bytesHelperInstance = BytesServerHandler.getInstance();
 
     private static final int DATA_LENGTH = 36;
 
