@@ -1,15 +1,12 @@
 package com.ten.air.server.service;
 
 import com.alibaba.fastjson.JSON;
-import com.ten.air.server.dao.AirRecordDao;
+import com.ten.air.server.bean.HttpResponse;
+import com.ten.air.server.entity.AirDevice;
+import com.ten.air.server.entity.AirRecord;
 import com.ten.air.server.utils.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Field;
-import java.util.List;
-
-import com.ten.air.server.entity.AirRecord;
 
 public class AirRecordService {
     private static final Logger logger = LoggerFactory.getLogger(AirRecordService.class);
@@ -19,18 +16,23 @@ public class AirRecordService {
         return INSTANCE;
     }
 
+    private static final String RECORD_URL = "http://localhost:8080/air/record";
+
     private HttpRequest http;
 
     private AirRecordService() {
         http = new HttpRequest();
     }
 
-    public String insert(AirRecord pojo) {
+    public HttpResponse insert(AirRecord pojo) {
         String params = JSON.toJSONString(pojo);
+        String response = http.sendPost(RECORD_URL, params);
+        return JSON.parseObject(response, HttpResponse.class);
     }
 
-    public String update(AirRecord pojo) {
+    public HttpResponse update(AirRecord pojo) {
         String params = JSON.toJSONString(pojo);
+        String response = http.sendUpdate(RECORD_URL, params);
+        return JSON.parseObject(response, HttpResponse.class);
     }
-
 }

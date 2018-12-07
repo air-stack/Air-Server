@@ -1,6 +1,7 @@
 package com.ten.air.server.bytesserver;
 
 import com.ten.air.server.bean.BytesConnection;
+import com.ten.air.server.bean.HttpResponse;
 import com.ten.air.server.entity.AirDevice;
 import com.ten.air.server.entity.AirRecord;
 import com.ten.air.server.service.AirDeviceService;
@@ -105,9 +106,7 @@ public class BytesServerHandler {
     public void receiveData(BytesConnection connection) {
         logger.info("开始处理数据包...");
 
-        AioSession<byte[]> session = connection.getSession();
         AirRecord airRecord = connection.getAirRecord();
-
         String imei = airRecord.getImei();
 
         // 获取心跳session
@@ -133,7 +132,7 @@ public class BytesServerHandler {
         }
 
         airRecord.setIsDeleted(0);
-        airRecordService.insert(airRecord);
+        HttpResponse response =airRecordService.insert(airRecord);
     }
 
     /**
@@ -148,21 +147,7 @@ public class BytesServerHandler {
         device.setImei(imei);
         device.setIsDeleted(0);
 
-        List<AirDevice> devices = airDeviceService.select(device);
-        // 设备不存在 => 注册
-        if (devices == null || devices.size() < 1) {
-            device.setDeviceStatus(0);
-            device.setAlias("设备");
-            device.setCommunityId("0");
-            airDeviceService.insert(device);
-            this.addConnectNum();
-        }
-        // 设备存在 => 上线
-        else {
-            device.setDeviceStatus(1);
-            airDeviceService.update(device);
-            this.addOnlineNum();
-        }
+        HttpResponse response = airDeviceService.insert(device);
 
         // 新连接写入session池
         this.imeiSession.put(imei, connection.getSession());
