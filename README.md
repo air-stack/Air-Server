@@ -1,14 +1,14 @@
 # Air Server
 
-> 大气环境检测系统的WEB_SERVER服务端，接收物联网设备发送的TCP数据包
+> 大气环境检测系统的TCP_SERVER服务端，接收物联网设备发送的TCP数据包，将TCP数据包编解码后通过HTTP发送到BACK端进行数据存储更新。
 
 ## 技术栈
 
-Smart-Socket + Mybatis + SpringBoot
+Smart-Socket + 编解码协议及工具 + SpringBoot脚手架 + Http调用
 
 ## 数据获取(物联网)
 
-通过物联网设备采集数据，通过WIFI模块发送TCP数据包到WEB_SERVER，解码数据包并将数据存储到数据库
+通过物联网设备采集数据，通过WIFI模块发送TCP数据包到TCP_SERVER，解码数据包并将数据通过HTTP发送到BACK服务器。
 
 通过心跳机制监测传感器状态，若失联三分钟，则关闭死连接，收到心跳包时再连接
 

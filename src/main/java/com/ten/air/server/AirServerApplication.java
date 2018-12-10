@@ -9,18 +9,15 @@ import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 127.0.0.1:2759
- *
- * @author wshten
- * @date 2018/10/26
  */
 @SpringBootApplication
 @ComponentScan("com.ten.air.server")
-public class AirApplication {
+public class AirServerApplication {
 
     private static final int PORT = 2759;
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(AirApplication.class, args);
+        SpringApplication.run(AirServerApplication.class, args);
         AioQuickServer<byte[]> server = new AioQuickServer<>(PORT, new BytesProtocol(), new BytesServerProcessor());
         server.start();
     }
