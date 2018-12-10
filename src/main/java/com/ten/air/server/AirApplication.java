@@ -2,7 +2,6 @@ package com.ten.air.server;
 
 import com.ten.air.server.bytesserver.BytesProtocol;
 import com.ten.air.server.bytesserver.BytesServerProcessor;
-import org.mybatis.spring.annotation.MapperScan;
 import org.smartboot.socket.transport.AioQuickServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan("com.ten.air.server")
-@MapperScan("com.ten.air.tcp.dao")
 public class AirApplication {
 
     private static final int PORT = 2759;
