@@ -25,12 +25,14 @@ public class AirDeviceService {
 
     public HttpResponse insert(AirDevice pojo) {
         String params = JSON.toJSONString(pojo);
+        logger.info("HTTP DEVICE POST:" + params);
         String response = http.sendPost(DEVICE_URL, params);
         return JSON.parseObject(response, HttpResponse.class);
     }
 
     public HttpResponse update(AirDevice pojo) {
         String params = JSON.toJSONString(pojo);
+        logger.info("HTTP DEVICE UPDATE:" + params);
         String response = http.sendUpdate(DEVICE_URL, params);
         return JSON.parseObject(response, HttpResponse.class);
     }

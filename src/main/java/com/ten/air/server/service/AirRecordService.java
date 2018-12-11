@@ -26,12 +26,14 @@ public class AirRecordService {
 
     public HttpResponse insert(AirRecord pojo) {
         String params = JSON.toJSONString(pojo);
+        logger.info("HTTP RECORD POST:" + params);
         String response = http.sendPost(RECORD_URL, params);
         return JSON.parseObject(response, HttpResponse.class);
     }
 
     public HttpResponse update(AirRecord pojo) {
         String params = JSON.toJSONString(pojo);
+        logger.info("HTTP RECORD UPDATE:" + params);
         String response = http.sendUpdate(RECORD_URL, params);
         return JSON.parseObject(response, HttpResponse.class);
     }

@@ -132,7 +132,12 @@ public class BytesServerHandler {
         }
 
         airRecord.setIsDeleted(0);
-        HttpResponse response =airRecordService.insert(airRecord);
+        HttpResponse response = airRecordService.insert(airRecord);
+        if (response.getCode() == 0) {
+            logger.info("数据写入成功");
+        } else {
+            logger.warn("数据写入失败");
+        }
     }
 
     /**
@@ -148,14 +153,15 @@ public class BytesServerHandler {
         device.setIsDeleted(0);
 
         HttpResponse response = airDeviceService.insert(device);
-
-        // 新连接写入session池
-        this.imeiSession.put(imei, connection.getSession());
-
-        // 更新心跳时间
-        updateImeiTime(imei);
-
-        return true;
+        if (response.getCode() == 0) {
+            // 新连接写入session池
+            this.imeiSession.put(imei, connection.getSession());
+            // 更新心跳时间
+            updateImeiTime(imei);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

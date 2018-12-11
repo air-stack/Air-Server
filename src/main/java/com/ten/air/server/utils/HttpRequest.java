@@ -1,13 +1,10 @@
 package com.ten.air.server.utils;
 
-import com.sun.net.ssl.HttpsURLConnection;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
@@ -68,11 +65,12 @@ public class HttpRequest {
         BufferedReader in;
         try {
             URL obj = new URL(url);
-            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
             con.setRequestMethod("POST");
             con.setRequestProperty("User-Agent", USER_AGENT);
             con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+            con.setRequestProperty("Content-Type","application/json; charset=UTF-8");
 
             // 发送Post请求
             con.setDoOutput(true);

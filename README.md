@@ -4,7 +4,7 @@
 
 ## 技术栈
 
-Smart-Socket + 编解码协议及工具 + SpringBoot脚手架 + Http调用
+Smart-Socket + 编解码协议及工具 + SpringBoot + Http调用
 
 ## 数据获取(物联网)
 
@@ -12,7 +12,9 @@ Smart-Socket + 编解码协议及工具 + SpringBoot脚手架 + Http调用
 
 通过心跳机制监测传感器状态，若失联三分钟，则关闭死连接，收到心跳包时再连接
 
-WEB数据展示站点项目详见：[https://github.com/kevinten10/Air-Webapp]
+BACK数据存储服务详见: [https://github.com/kevinten10/Air-Back]
+
+WEB数据展示网站详见：[https://github.com/kevinten10/Air-Webapp]
 
 ## 数据协议
 
@@ -31,5 +33,4 @@ WEB数据展示站点项目详见：[https://github.com/kevinten10/Air-Webapp]
 # 5. 启动项目
 
 # 6. 使用tools目录下TCP测试工具进行测试
-
 ```
