@@ -70,7 +70,7 @@ public class HttpRequest {
             con.setRequestMethod("POST");
             con.setRequestProperty("User-Agent", USER_AGENT);
             con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-            con.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
             // 发送Post请求
             con.setDoOutput(true);

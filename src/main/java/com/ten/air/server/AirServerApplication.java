@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * 127.0.0.1:2759
+ * 监听127.0.0.1:2759
  */
 @SpringBootApplication
 @ComponentScan("com.ten.air.server")

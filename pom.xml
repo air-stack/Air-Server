@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>Air-Server</name>
-    <description>Aio Tcp Server for Air</description>
+    <description>Tcp Server for Air</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
