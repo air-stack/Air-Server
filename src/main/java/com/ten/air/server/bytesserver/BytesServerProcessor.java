@@ -14,15 +14,17 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
 
     private BytesServerHandler bytesHelperInstance = BytesServerHandler.getInstance();
 
-    private static final int DATA_LENGTH = 36;
+    private static final int DATA_LENGTH = 72;
 
     @Override
     public void process(AioSession<byte[]> session, byte[] data) {
         // 和校验
 
+        logger.debug("接收到的基础数据为 {}", data);
+
         // 长度校验
-        if (data.length != DATA_LENGTH) {
-            logger.warn("长度校验 失败");
+        if (data.length < DATA_LENGTH) {
+            logger.info("长度校验失败 {}", data.length);
             return;
         }
 
@@ -33,7 +35,7 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
             return;
         }
 
-        logger.info("接收到的基础数据为 " + dataString);
+        logger.info("接收到的基础数据为 {}", dataString);
 
         // 地址码 (11-25)字节
         String imei = dataString.substring(20, 50);
@@ -56,7 +58,7 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
         airRecord.setCo2(co2);
         airRecord.setSo2(so2);
 
-        logger.info("当前进入设备 --> " + airRecord);
+        logger.info("当前进入设备 --> {}", airRecord);
 
         BytesConnection connection = BytesConnection.newInstance(airRecord, session);
 
