@@ -1,4 +1,4 @@
-package com.ten.air.server.bytesserver;
+package com.ten.air.server.server;
 
 import com.ten.air.server.bean.BytesConnection;
 import com.ten.air.server.bean.HttpResponse;
@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.transport.AioSession;
 
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 

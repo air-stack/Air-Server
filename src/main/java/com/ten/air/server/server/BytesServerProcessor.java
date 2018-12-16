@@ -1,4 +1,4 @@
-package com.ten.air.server.bytesserver;
+package com.ten.air.server.server;
 
 import com.ten.air.server.bean.BytesConnection;
 import com.ten.air.server.entity.AirRecord;
@@ -19,6 +19,12 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
     @Override
     public void process(AioSession<byte[]> session, byte[] data) {
         // 和校验
+
+        // TODO 接收两种形式的数据包
+
+        // FIXME 使用Java8特性重构函数体
+
+        // TODO 使用第三方协议编解码包进行编解码操作
 
         logger.debug("接收到的基础数据为 {}", data);
 

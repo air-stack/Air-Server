@@ -1,7 +1,7 @@
 package com.ten.air.server;
 
-import com.ten.air.server.bytesserver.BytesProtocol;
-import com.ten.air.server.bytesserver.BytesServerProcessor;
+import com.ten.air.server.server.BytesProtocol;
+import com.ten.air.server.server.BytesServerProcessor;
 import org.smartboot.socket.transport.AioQuickServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
