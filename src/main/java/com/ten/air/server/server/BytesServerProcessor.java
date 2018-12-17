@@ -1,7 +1,10 @@
 package com.ten.air.server.server;
 
+import com.alibaba.fastjson.JSON;
+import com.ten.air.protocol.ProtocolDecode;
+import com.ten.air.protocol.ProtocolEncode;
+import com.ten.air.protocol.bean.AirRecord;
 import com.ten.air.server.bean.BytesConnection;
-import com.ten.air.server.entity.AirRecord;
 import com.ten.air.server.utils.CodeConvertUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,60 +12,47 @@ import org.smartboot.socket.MessageProcessor;
 import org.smartboot.socket.StateMachineEnum;
 import org.smartboot.socket.transport.AioSession;
 
+import java.util.Arrays;
+
 public class BytesServerProcessor implements MessageProcessor<byte[]> {
     private static Logger logger = LoggerFactory.getLogger(BytesServerProcessor.class);
 
     private BytesServerHandler bytesHelperInstance = BytesServerHandler.getInstance();
 
-    private static final int DATA_LENGTH = 72;
+    private static final int DATA_LENGTH = 36;
 
     @Override
     public void process(AioSession<byte[]> session, byte[] data) {
-        // 和校验
+        // TODO 和校验
 
-        // TODO 接收两种形式的数据包
+        String protocol;
 
-        // FIXME 使用Java8特性重构函数体
+        // 数据格式一 :十进制JSON数据
+        if (data[0] == '{') {
+            // 解析JSON
+            AirRecord airRecord = JSON.parseObject(Arrays.toString(data), AirRecord.class);
 
-        // TODO 使用第三方协议编解码包进行编解码操作
+            protocol = ProtocolEncode.toHexProtocol(airRecord);
+        }
+        // 数据格式二 :十六进制字符串
+        else {
+            // 长度校验
+            if (data.length < DATA_LENGTH) {
+                logger.info("长度校验失败 {}, {}", data.length, data);
+                return;
+            }
 
-        logger.debug("接收到的基础数据为 {}", data);
-
-        // 长度校验
-        if (data.length < DATA_LENGTH) {
-            logger.info("长度校验失败 {}", data.length);
-            return;
+            protocol = CodeConvertUtil.bytesToHexString(data);
+            if (protocol == null) {
+                logger.error("数据转换 失败");
+                return;
+            }
         }
 
-        // 接收到客户端传输的数据 data
-        String dataString = CodeConvertUtil.bytesToHexString(data);
-        if (dataString == null) {
-            logger.error("数据转换 失败");
-            return;
-        }
+        logger.info("接收到的基础数据为 {}", protocol);
 
-        logger.info("接收到的基础数据为 {}", dataString);
-
-        // 地址码 (11-25)字节
-        String imei = dataString.substring(20, 50);
-        // 数据来源 (26)字节
-        String source = dataString.substring(50, 52);
-        // 数据1 温度 (27-28)字节
-        String temperature = dataString.substring(52, 56);
-        // 数据2 PM25 (29-30)字节
-        String pm25 = dataString.substring(56, 60);
-        // 数据3 CO2 (31-32)字节
-        String co2 = dataString.substring(60, 64);
-        // 数据4 SO2 (33-34)字节
-        String so2 = dataString.substring(64, 68);
-
-        AirRecord airRecord = new AirRecord();
-        airRecord.setImei(imei);
-        airRecord.setSource(source);
-        airRecord.setTemperature(temperature);
-        airRecord.setPm25(pm25);
-        airRecord.setCo2(co2);
-        airRecord.setSo2(so2);
+        // 解析协议字符串
+        AirRecord airRecord = ProtocolDecode.parseProtocol(protocol);
 
         logger.info("当前进入设备 --> {}", airRecord);
 
@@ -71,6 +61,7 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
         // 进入信息接收处理流程
         bytesHelperInstance.receiveData(connection);
     }
+
 
     @Override
     public void stateEvent(AioSession<byte[]> session, StateMachineEnum stateMachineEnum, Throwable throwable) {

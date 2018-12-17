@@ -20,6 +20,21 @@ public class CodeConvertUtil {
         return stringBuilder.toString();
     }
 
+    /**
+     * (byte)ASCII----->10进制
+     *
+     * @param src src
+     * @return String
+     */
+    static String convertASCIIToString(byte[] src) {
+        if (src == null || src.length <= 0) {
+            return null;
+        }
+        String hexString = convertASCIIToHexString(src);
+        return convertHexStringToString(hexString);
+    }
+
+
     private static void asciiToHex(byte[] src, StringBuilder stringBuilder) {
         for (byte aSrc : src) {
             int v = aSrc & 0xFF;
@@ -50,13 +65,6 @@ public class CodeConvertUtil {
         return sb.toString();
     }
 
-    static String convertASCIIToString(byte[] src) {
-        if (src == null || src.length <= 0) {
-            return null;
-        }
-        String hexString = convertASCIIToHexString(src);
-        return convertHexStringToString(hexString);
-    }
 
     /**
      * STRING[EF]----->16进制[4546]
@@ -159,5 +167,6 @@ public class CodeConvertUtil {
                 + (min.length() == 2 ? min : "0" + min)
                 + (second.length() == 2 ? second : "0" + second);
     }
+
 
 }

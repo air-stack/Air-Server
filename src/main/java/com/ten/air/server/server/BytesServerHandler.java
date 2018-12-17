@@ -1,9 +1,9 @@
 package com.ten.air.server.server;
 
+import com.ten.air.protocol.bean.AirRecord;
 import com.ten.air.server.bean.BytesConnection;
 import com.ten.air.server.bean.HttpResponse;
 import com.ten.air.server.entity.AirDevice;
-import com.ten.air.server.entity.AirRecord;
 import com.ten.air.server.service.AirDeviceService;
 import com.ten.air.server.service.AirRecordService;
 import org.slf4j.Logger;
@@ -58,42 +58,42 @@ public class BytesServerHandler {
     /**
      * 获取当前在线数量
      */
-    public AtomicInteger getOnlineNum() {
+    AtomicInteger getOnlineNum() {
         return onlineNum;
     }
 
     /**
      * 获取当前连接数量
      */
-    public AtomicInteger getConnectNum() {
+    AtomicInteger getConnectNum() {
         return connectNum;
     }
 
     /**
      * 机器连接：连接数 +1
      */
-    public void addConnectNum() {
+    void addConnectNum() {
         this.connectNum.getAndAdd(1);
     }
 
     /**
      * 机器连接：在线数 +1
      */
-    public void addOnlineNum() {
+    void addOnlineNum() {
         this.onlineNum.getAndAdd(1);
     }
 
     /**
      * 机器断开连接：连接数 -1
      */
-    public void disconnect() {
+    void disconnect() {
         this.connectNum.getAndAdd(-1);
     }
 
     /**
      * 机器下线：在线数 -1
      */
-    public void offline(String key) {
+    void offline(String key) {
         this.onlineNum.getAndAdd(-1);
     }
 
@@ -102,7 +102,7 @@ public class BytesServerHandler {
     private AirDeviceService airDeviceService = AirDeviceService.getInstance();
     private AirRecordService airRecordService = AirRecordService.getInstance();
 
-    public void receiveData(BytesConnection connection) {
+    void receiveData(BytesConnection connection) {
         logger.info("开始处理数据包...");
 
         AirRecord airRecord = connection.getAirRecord();
