@@ -1,12 +1,12 @@
 # Air Server
 
-> 大气环境检测系统的TCP_SERVER服务端，监听物联网设备发送的TCP数据包，将TCP数据包编解码后通过HTTP发送到BACK端进行数据存储更新。
+> TCP_SERVER服务端，监听物联网设备发送的TCP数据包，将TCP数据包编解码后通过HTTP发送到BACK端进行数据存储更新。
 
 ## 技术栈
 
-Smart-Socket + 编解码协议及工具 + SpringBoot + Http调用
+Smart-Socket + SpringBoot + Http客户端
 
-## 数据发送
+## 数据发送端
 
 1. 通过Mocker模拟发送TCP数据: [Air-Room](https://github.com/kevinten10/Air-Room)
 
@@ -14,9 +14,9 @@ Smart-Socket + 编解码协议及工具 + SpringBoot + Http调用
 
 ## 运行流程
 
-1. 按照协议编码，模拟生成大气监测数据，通过线程池Socket模拟发送TCP数据包到TCP_SERVER。
+1. 基于Air-Protocol按照协议编码，模拟生成大气监测数据，通过线程池Socket模拟发送TCP数据包到TCP_SERVER。
 
-2. 按照协议编码，通过物联网设备采集数据，通过WIFI模块发送TCP数据包到TCP_SERVER，解码数据包并将数据通过HTTP发送到BACK服务器。
+2. 基于Air-Protocol按照协议编码，通过物联网设备采集数据，通过WIFI模块发送TCP数据包到TCP_SERVER，解码数据包并将数据通过HTTP发送到BACK服务器。
 
 通过心跳机制监测传感器状态，若失联三分钟，则关闭死连接，收到心跳包时再连接
 
@@ -26,7 +26,7 @@ WEB数据展示网站详见：[https://github.com/kevinten10/Air-Webapp]
 
 ## 数据协议
 
-使用十六进制编码的TCP数据包，格式详见：tools/STM32WIFI模块TCP通信协议.xlsx
+需导入Protocol协议编解码jar包 [Air-Protocol](https://github.com/kevinten10/Air-Protocol)
 
 ## 使用
 
