@@ -85,6 +85,7 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
                 break;
 
             case SESSION_CLOSED:
+                bytesHelperInstance.disconnect();
                 logger.warn("SESSION_CLOSED:客户端ID:" + sessionId + "【已关闭】");
                 break;
 

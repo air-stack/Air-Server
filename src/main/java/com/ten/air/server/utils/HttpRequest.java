@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class HttpRequest {
 
-    private static final String ERROR = "{code:0,msg:\"error\",data:\"\"}";
+    private static final String ERROR = "{code:500,msg:\"error\",data:\"\"}";
     private static final String USER_AGENT = "Mozilla/5.0";
 
     /**
