@@ -15,7 +15,7 @@ public class AirDeviceService {
         return INSTANCE;
     }
 
-    private static final String DEVICE_URL = "http://localhost:8080/air/device";
+    private static final String DEVICE_URL = "http://localhost:8090/air/device";
 
     private HttpRequest http;
 

@@ -1,6 +1,5 @@
 package com.ten.air.server.bean;
 
-import com.ten.air.protocol.bean.AirRecord;
 import org.smartboot.socket.transport.AioSession;
 
 /**
@@ -15,13 +14,13 @@ public class BytesConnection {
      首部  长度      时间戳      功能码                设备号IMEI                  来源  数据  数据   数据   数据  校验和
     */
 
-    private AirRecord airRecord;
+    private com.ten.air.protocol.bean.AirRecord airRecord;
     private AioSession<byte[]> session;
 
     private BytesConnection() {
     }
 
-    public static BytesConnection newInstance(AirRecord airRecord, AioSession<byte[]> session) {
+    public static BytesConnection newInstance(com.ten.air.protocol.bean.AirRecord airRecord, AioSession<byte[]> session) {
         BytesConnection instance = new BytesConnection();
         instance.airRecord = airRecord;
         instance.session = session;
@@ -36,11 +35,11 @@ public class BytesConnection {
                 '}';
     }
 
-    public AirRecord getAirRecord() {
+    public com.ten.air.protocol.bean.AirRecord getAirRecord() {
         return airRecord;
     }
 
-    public void setAirRecord(AirRecord airRecord) {
+    public void setAirRecord(com.ten.air.protocol.bean.AirRecord airRecord) {
         this.airRecord = airRecord;
     }
 

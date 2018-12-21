@@ -1,6 +1,5 @@
 package com.ten.air.server.server;
 
-import com.ten.air.protocol.bean.AirRecord;
 import com.ten.air.server.bean.BytesConnection;
 import com.ten.air.server.bean.HttpResponse;
 import com.ten.air.server.entity.AirDevice;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.transport.AioSession;
 
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -104,18 +102,22 @@ class BytesServerHandler {
      * 数据包处理逻辑
      */
     void receiveData(BytesConnection connection) {
-        AirRecord airRecord = connection.getAirRecord();
+        com.ten.air.protocol.bean.AirRecord airRecord = connection.getAirRecord();
         String imei = airRecord.getImei();
 
         // 获取session
-        Optional<AioSession<byte[]>> oldImeiSession = Optional.ofNullable(this.imeiSession.get(imei));
+        AioSession<byte[]> oldImeiSession = this.imeiSession.get(imei);
 
-        // 注册新设备 or 更新心跳
-        Boolean result = oldImeiSession
-                // 若值存在，更新心跳
-                .map((session) -> updateImeiTime(imei))
-                // 若值为空，注册设备
-                .orElse(registerNewConnect(connection));
+        Boolean result;
+
+        // 更新心跳
+        if (oldImeiSession == null) {
+            result = registerNewConnect(connection);
+        }
+        // 注册新设备
+        else {
+            result = updateImeiTime(imei);
+        }
 
         // HTTP请求
         if (result) {
@@ -145,6 +147,9 @@ class BytesServerHandler {
 
         // HTTP请求 注册设备信息
         HttpResponse response = airDeviceService.insert(device);
+
+        System.out.println("response:" + response);
+
         if (response.getCode() == 0) {
             // 新连接写入session池
             this.imeiSession.put(imei, connection.getSession());

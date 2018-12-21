@@ -15,7 +15,7 @@ public class AirRecordService {
         return INSTANCE;
     }
 
-    private static final String RECORD_URL = "http://localhost:8080/air/record";
+    private static final String RECORD_URL = "http://localhost:8090/air/record";
 
     private HttpRequest http;
 
@@ -23,7 +23,7 @@ public class AirRecordService {
         http = new HttpRequest();
     }
 
-    public HttpResponse insert(AirRecord pojo) {
+    public HttpResponse insert(com.ten.air.protocol.bean.AirRecord pojo) {
         String params = JSON.toJSONString(pojo);
         logger.info("HTTP RECORD POST:" + params);
         String response = http.sendPost(RECORD_URL, params);
