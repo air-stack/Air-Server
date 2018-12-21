@@ -123,12 +123,12 @@ class BytesServerHandler {
         if (result) {
             HttpResponse response = airRecordService.insert(airRecord);
             if (response.getCode() == 0) {
-                logger.info("数据写入成功");
+                logger.info("HTTP Data write success");
             } else {
-                logger.warn("数据写入失败");
+                logger.warn("HTTP Data write failure");
             }
         } else {
-            logger.warn("连接本地注册失败，请检查！");
+            logger.warn("CREATE NEW DEVICE FAILURE!");
         }
 
     }
@@ -137,8 +137,6 @@ class BytesServerHandler {
      * 注册新连接
      */
     private Boolean registerNewConnect(BytesConnection connection) {
-        logger.info("开始注册新连接...");
-
         String imei = connection.getAirRecord().getImei();
 
         AirDevice device = new AirDevice();
@@ -147,18 +145,14 @@ class BytesServerHandler {
 
         // HTTP请求 注册设备信息
         HttpResponse response = airDeviceService.insert(device);
-
-        System.out.println("response:" + response);
-
         if (response.getCode() == 0) {
             // 新连接写入session池
             this.imeiSession.put(imei, connection.getSession());
             // 更新心跳时间
             updateImeiTime(imei);
-            logger.info("创建新连接成功 " + connection);
             return true;
         } else {
-            logger.warn("创建新连接失败 " + connection);
+            logger.warn("HTTP Create new device failure : " + connection);
             return false;
         }
     }
@@ -167,7 +161,7 @@ class BytesServerHandler {
      * 更新心跳 时间: 1970.1.1开始的毫秒数
      */
     private Boolean updateImeiTime(String imei) {
-        logger.info("心跳刷新 : " + imei);
+        logger.info("update time : " + imei);
         long time = System.currentTimeMillis();
         imeiLastTime.put(imei, time);
         return true;

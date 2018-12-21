@@ -62,13 +62,13 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
         else if (data.charAt(0) == 'A' && data.charAt(1) == '0') {
             // 长度校验
             if (data.length() < DATA_LENGTH) {
-                logger.info("长度校验失败 {}, {}", data.length(), data);
+                logger.info("Protocol length error {}, {}", data.length(), data);
                 return;
             }
 
             protocol = CodeConvertUtil.bytesToHexString(bytes);
             if (protocol == null) {
-                logger.error("数据转换 失败");
+                logger.error("Protocol trans error");
                 return;
             }
         }
@@ -78,12 +78,12 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
             return;
         }
 
-        logger.info("接收到的基础数据为 {}", protocol);
+        logger.info("PROTOCOL : {}", protocol);
 
         // 解析协议字符串
         AirRecord airRecord = ProtocolDecode.parseProtocol(protocol);
 
-        logger.info("当前进入数据 --> {}", airRecord);
+        logger.info("AIRRECORD : {}", airRecord);
 
         BytesConnection connection = BytesConnection.newInstance(airRecord, session);
 
@@ -98,28 +98,28 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
         switch (stateMachineEnum) {
             case NEW_SESSION:
                 bytesHelperInstance.addConnectNum();
-                logger.info("NEW_SESSION:客户端ID:" + sessionId + "连接了,当前连接数(已连接)：" + bytesHelperInstance.getConnectNum());
+                logger.info("NEW_SESSION: ID:" + sessionId + "connected, current con: " + bytesHelperInstance.getConnectNum());
                 break;
 
             case INPUT_SHUTDOWN:
-                logger.warn("INPUT_SHUTDOWN:客户端ID:" + sessionId + "【断开连接】");
+                logger.warn("INPUT_SHUTDOWN: ID:" + sessionId);
                 break;
 
             case INPUT_EXCEPTION:
-                logger.warn("INPUT_EXCEPTION:客户端ID:" + sessionId + "【输入异常】");
+                logger.warn("INPUT_EXCEPTION: ID:" + sessionId);
                 break;
 
             case OUTPUT_EXCEPTION:
-                logger.warn("OUTPUT_EXCEPTION:向客户端ID:" + sessionId + "【输出异常】");
+                logger.warn("OUTPUT_EXCEPTION: ID:" + sessionId);
                 break;
 
             case SESSION_CLOSED:
                 bytesHelperInstance.disconnect();
-                logger.warn("SESSION_CLOSED:客户端ID:" + sessionId + "【已关闭】");
+                logger.warn("SESSION_CLOSED: ID:" + sessionId);
                 break;
 
             default:
-                logger.warn("DEFAULT:处理客户端ID:" + sessionId + "请求出现异常");
+                logger.warn("EXCEPTION: ID:" + sessionId);
                 break;
         }
     }

@@ -68,3 +68,7 @@ File -> Project Structure -> Artifacts -> Add -> JAR -> from modules with depend
     java -jar project.jar (即运行主JAR包)
     
 检查是否启动成功
+
+4. 开启防火墙
+
+放通2759监听端口，8090调用端口
