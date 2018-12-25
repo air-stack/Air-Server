@@ -30,6 +30,10 @@ WEB数据展示网站详见：[https://github.com/kevinten10/Air-Webapp]
 
 需导入Protocol协议编解码jar包 [Air-Protocol](https://github.com/kevinten10/Air-Protocol)
 
+Air-Protocol.jar已经放在了项目目录下，需要将其手动导入到项目libraries
+
+File -> Project Structure -> Libraries -> add -> java -> 选择jar包
+
 ## 使用
 
 ```txt
@@ -72,3 +76,11 @@ File -> Project Structure -> Artifacts -> Add -> JAR -> from modules with depend
 4. 开启防火墙
 
 放通2759监听端口，8090调用端口
+
+### 快速部署
+
+已将打包好的jar包放在目录下，将Air_Server_jar拷贝到服务器文件下即可，进入目录，输入
+
+    java -jar Air-Server.jar
+    
+即可运行服务

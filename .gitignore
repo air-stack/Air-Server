@@ -1,25 +1,6 @@
-/target/
-!.mvn/wrapper/maven-wrapper.jar
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/build/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+.idea/
+Air-Server.iml
+classes/
+target/
+"tools/TCP&UDP\346\265\213\350\257\225\345\267\245\345\205\267/"
+tools/__MACOSX/

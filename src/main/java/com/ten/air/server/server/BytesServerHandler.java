@@ -110,11 +110,11 @@ class BytesServerHandler {
 
         Boolean result;
 
-        // 更新心跳
+        // 注册新设备
         if (oldImeiSession == null) {
             result = registerNewConnect(connection);
         }
-        // 注册新设备
+        // 更新心跳
         else {
             result = updateImeiTime(imei);
         }
@@ -141,7 +141,6 @@ class BytesServerHandler {
 
         AirDevice device = new AirDevice();
         device.setImei(imei);
-        device.setIsDeleted(0);
 
         // HTTP请求 注册设备信息
         HttpResponse response = airDeviceService.insert(device);
@@ -161,7 +160,6 @@ class BytesServerHandler {
      * 更新心跳 时间: 1970.1.1开始的毫秒数
      */
     private Boolean updateImeiTime(String imei) {
-        logger.info("update time : " + imei);
         long time = System.currentTimeMillis();
         imeiLastTime.put(imei, time);
         return true;
