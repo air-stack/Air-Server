@@ -21,6 +21,9 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
 
     private static final int DATA_LENGTH = 36;
 
+    /**
+     * TCP数据包接收
+     */
     @Override
     public void process(AioSession<byte[]> session, byte[] bytes) {
         // TODO 和校验
@@ -91,7 +94,9 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
         bytesHelperInstance.receiveData(connection);
     }
 
-
+    /**
+     * 连接事件处理机
+     */
     @Override
     public void stateEvent(AioSession<byte[]> session, StateMachineEnum stateMachineEnum, Throwable throwable) {
         String sessionId = session.getSessionID();
