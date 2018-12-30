@@ -9,18 +9,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.transport.AioSession;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 数据包处理器
  */
-class BytesServerHandler {
+public class BytesServerHandler {
     private static final Logger logger = LoggerFactory.getLogger(BytesServerHandler.class);
 
     private static final BytesServerHandler INSTANCE = new BytesServerHandler();
 
-    static BytesServerHandler getInstance() {
+    public static BytesServerHandler getInstance() {
         return INSTANCE;
     }
 
@@ -34,6 +35,10 @@ class BytesServerHandler {
      * @value 最后连接时间(long = > ms)
      */
     private ConcurrentHashMap<String, Long> imeiLastTime;
+
+    public ConcurrentHashMap<String, Long> getImeiLastTime() {
+        return imeiLastTime;
+    }
 
     /**
      * 当前连接数量
@@ -163,5 +168,28 @@ class BytesServerHandler {
         long time = System.currentTimeMillis();
         imeiLastTime.put(imei, time);
         return true;
+    }
+
+    /**
+     * 断开并删除连接
+     *
+     * @return boolean 删除成功?
+     */
+    public boolean removeConnection(String imei) {
+        try {
+            // 计时池 清除
+            this.imeiLastTime.remove(imei);
+            // 获取连接
+            AioSession<byte[]> oldSession = this.imeiSession.get(imei);
+            // imei池 清除
+            this.imeiSession.remove(imei);
+            // 断开连接
+            oldSession.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("", e);
+            return false;
+        }
     }
 }
