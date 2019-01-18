@@ -1,5 +1,2 @@
 .idea/
-Air-Server.iml
-classes/
-target/
-tools/TCP&UDP测试工具
+target
