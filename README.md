@@ -22,7 +22,7 @@ Smart-Socket + SpringBoot + Http客户端
 
 PROTOCOL协议编解码工具详见：[https://github.com/kevinten10/Air-Protocol]
 
-BACK数据存储服务详见: [https://github.com/kevinten10/Air-Back]
+BACK数据存储服务详见: [https://github.com/kevinten10/Air-Server]
 
 WEB数据展示网站详见：[https://github.com/kevinten10/Air-Webapp]
 
@@ -61,7 +61,7 @@ File -> Project Structure -> Artifacts -> Add -> JAR -> from modules with depend
 
 打开JAR，找到META-INF/MAINFEST.MF文件，检查 "Main-Class" 配置是否正确
 
-正确配置为 Main-Clas: com...(包名)...AirBackApplication(main函数类)
+正确配置为 Main-Clas: com...(包名)...AirServerApplication(main函数类)
 
 3. 上传JAR
 
@@ -75,7 +75,7 @@ File -> Project Structure -> Artifacts -> Add -> JAR -> from modules with depend
 
 4. 开启防火墙
 
-放通2759监听端口，8090调用端口
+放通9001监听端口，9003调用端口
 
 ### 快速部署
 
@@ -84,3 +84,24 @@ File -> Project Structure -> Artifacts -> Add -> JAR -> from modules with depend
     java -jar Air-Server.jar
     
 即可运行服务
+
+后台运行：nohup java -jar Air-Server.jar > /usr/local/air/server.out  &
+
+### docker部署
+
+    docker run -d --network host -v /usr/local/air/Air_Server_jar/Air-Server.jar:/usr/local/air/Air_Server_jar/Air-Server.jar --name air-back java:8u111 java -jar /usr/local/air/Air_Server_jar/Air-Server.jar
+    
+解析    
+   
+    --network host ：本身与宿主机共用了网络，容器中暴露端口等同于宿主机暴露端口。
+    
+    -d 表示在后台启动
+        
+    -v /usr/local/air/Air_Server_jar/Air-Server.jar:/usr/local/air/Air_Server_jar/Air-Server.jar 表示将宿主主机的jar文件，映射到容器中（分号前为宿主主机的路径，分号后为容器中的路径）
+    
+    --name air-back 表示为该容器取一个全局唯一的名称，这里我取的名称为air-back
+    
+    java:8u111 表示镜像文件的名称和tag
+    
+    java -jar /usr/local/air/Air_Server_jar/Air-Server.jar 表示运行jar包，注意：这里的jar包为容器中的位置，是通过前面的-v属性映射的
+    
