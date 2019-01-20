@@ -7,6 +7,8 @@ import com.ten.air.server.utils.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.ten.air.server.AirServerApplication.BACK_PORT;
+
 public class AirRecordService {
     private static final Logger logger = LoggerFactory.getLogger(AirRecordService.class);
     private static final AirRecordService INSTANCE = new AirRecordService();
@@ -15,7 +17,7 @@ public class AirRecordService {
         return INSTANCE;
     }
 
-    private static final String RECORD_URL = "http://localhost:8090/air/record";
+    private static final String RECORD_URL = "http://localhost:"+BACK_PORT+"/air/record";
 
     private HttpRequest http;
 

@@ -8,13 +8,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * 监听127.0.0.1:2759
+ * 监听127.0.0.1:9001
  */
 @SpringBootApplication
 @ComponentScan("com.ten.air.server")
 public class AirServerApplication {
 
-    private static final int PORT = 2759;
+    /**
+     * back服务的端口
+     */
+    public static final int BACK_PORT = 9003;
+    /**
+     * smartsocket监听端口
+     */
+    private static final int PORT = 9001;
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(AirServerApplication.class, args);

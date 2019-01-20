@@ -4,4 +4,4 @@ server:
   tomcat:
     max-threads: 800
     uri-encoding: UTF-8
-  port: 8070
+  port: 9002

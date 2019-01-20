@@ -14,6 +14,8 @@ import org.smartboot.socket.MessageProcessor;
 import org.smartboot.socket.StateMachineEnum;
 import org.smartboot.socket.transport.AioSession;
 
+import java.nio.charset.StandardCharsets;
+
 public class BytesServerProcessor implements MessageProcessor<byte[]> {
     private static Logger logger = LoggerFactory.getLogger(BytesServerProcessor.class);
 
@@ -31,7 +33,7 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
         String protocol;
 
         // byte[] -> string
-        String data = new String(bytes);
+        String data = new String(bytes, StandardCharsets.UTF_8);
 
         // 数据格式一 :JSON数据 -> 正确数据信息
         if (data.charAt(1) == '{') {
@@ -61,7 +63,7 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
                 return;
             }
         }
-        // 数据格式二 :十六进制字符串 -> 暂未使用
+        // 数据格式二 :十六进制字符串 -> 模拟器传来的数据
         else if (data.charAt(0) == 'A' && data.charAt(1) == '0') {
             // 长度校验
             if (data.length() < DATA_LENGTH) {
@@ -69,11 +71,7 @@ public class BytesServerProcessor implements MessageProcessor<byte[]> {
                 return;
             }
 
-            protocol = CodeConvertUtil.bytesToHexString(bytes);
-            if (protocol == null) {
-                logger.error("Protocol trans error");
-                return;
-            }
+            protocol = data;
         }
         // 数据格式三 :字符串信息 -> 监测失败信息
         else {

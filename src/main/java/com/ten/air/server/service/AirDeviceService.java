@@ -7,6 +7,8 @@ import com.ten.air.server.utils.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.ten.air.server.AirServerApplication.BACK_PORT;
+
 public class AirDeviceService {
     private static final Logger logger = LoggerFactory.getLogger(AirDeviceService.class);
     private static final AirDeviceService INSTANCE = new AirDeviceService();
@@ -15,7 +17,7 @@ public class AirDeviceService {
         return INSTANCE;
     }
 
-    private static final String DEVICE_URL = "http://localhost:8090/air/device";
+    private static final String DEVICE_URL = "http://localhost:" + BACK_PORT + "/air/device";
 
     private HttpRequest http;
 
